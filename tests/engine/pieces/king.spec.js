@@ -3,6 +3,9 @@ import King from '../../../src/engine/pieces/king';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
+import Pawn from '../../../src/engine/pieces/pawn';
+import assert from "assert";
+import Rook from '../../../src/engine/pieces/rook';
 
 describe('King', () => {
 
@@ -42,4 +45,56 @@ describe('King', () => {
 
         moves.should.deep.have.members(expectedMoves);
     });
+
+    it('can take opposing pieces', () => {
+        const king = new King(Player.WHITE);
+        const opposingPawn = new Pawn(Player.BLACK)
+        board.setPiece(Square.at(0, 0), king);
+        board.setPiece(Square.at(0, 1), opposingPawn)
+
+        const moves = king.getAvailableMoves(board);
+
+        const expectedMoves = Square.at(0, 1);
+
+        moves.should.deep.include(expectedMoves);
+    });
+
+    it('cannot take friendly pieces', () => {
+        const king = new King(Player.WHITE);
+        const friendlyPawn = new Pawn(Player.WHITE)
+        board.setPiece(Square.at(0, 0), king);
+        board.setPiece(Square.at(0, 1), friendlyPawn)
+
+        const moves = king.getAvailableMoves(board);
+
+        const unexpectedMoves = Square.at(0, 1);
+
+        moves.should.not.deep.include(unexpectedMoves);
+    });
+
+    it('cannot be taken', () => {
+        const king = new King(Player.WHITE);
+        const opposingKing = new King(Player.BLACK)
+        board.setPiece(Square.at(0, 1), opposingKing)
+
+        assert.throws(() => board.setPiece(Square.at(0, 1), king));
+    })
+
+    //TODO: write a test for check
+    it('is in check', () => {
+        const king = new King(Player.WHITE);
+        const opposingRook = new Rook(Player.BLACK)
+        board.setPiece(Square.at(0, 1), king)
+        board.setPiece(Square.at(0, 5), opposingRook)
+
+        king.isInCheck.should.equal(true)
+    })
+    it('is not in check', () => {
+        const king = new King(Player.WHITE);
+        const opposingRook = new Rook(Player.BLACK)
+        board.setPiece(Square.at(0, 1), king)
+        board.setPiece(Square.at(1, 5), opposingRook)
+
+        king.isInCheck.should.not.equal(true)
+    })
 });

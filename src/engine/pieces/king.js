@@ -11,4 +11,17 @@ export default class King extends Piece {
         const directions = Rook.directions.concat(Bishop.directions)
         return Piece.availableMovesInDirections(this, directions, 1);
     }
+
+    get isInCheck() {
+        const position = this.position;
+        const opposingPieces = this.board.getAllPieces()
+            .filter(piece => piece.player != this.player)
+        for (const piece of opposingPieces) {
+            if (piece.getAvailableMoves(this.board)
+                .find((value) => position.equals(value))) {
+                return true
+            }
+        }
+        return false
+    }
 }

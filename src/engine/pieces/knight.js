@@ -16,6 +16,8 @@ export default class Knight extends Piece {
             }
         }
         moves = moves.filter(position => board.containsSquare(position))
+        moves = moves.filter(position => !(board.getPiece(position) && board.getPiece(position)
+            .player == this.player))
         return moves;
     }
 }

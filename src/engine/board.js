@@ -1,6 +1,7 @@
 import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
+import King from './pieces/king';
 
 export default class Board {
     constructor(currentPlayer) {
@@ -17,6 +18,9 @@ export default class Board {
     }
 
     setPiece(square, piece) {
+        if (this.board[square.row][square.col] instanceof King) {
+            throw Error("Cannot take the king")
+        }
         this.board[square.row][square.col] = piece;
         if (piece) {
             piece.board = this;
@@ -27,6 +31,18 @@ export default class Board {
         if (this.containsSquare(square)) {
             return this.board[square.row][square.col];
         }
+    }
+
+    getAllPieces() {
+        let pieces = []
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                if (this.board[row][col]) {
+                    pieces.push(this.board[row][col])
+                }
+            }
+        }
+        return pieces
     }
 
     findPiece(pieceToFind) {
