@@ -7,6 +7,8 @@ export default class Board {
     constructor(currentPlayer) {
         this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
         this.board = this.createBoard();
+        this.kings = [];
+        this.kings.length = 2;
     }
 
     createBoard() {
@@ -20,6 +22,9 @@ export default class Board {
     setPiece(square, piece) {
         if (this.board[square.row][square.col] instanceof King) {
             throw Error("Cannot take the king")
+        }
+        if (piece instanceof King) {
+            this.kings[piece.player] = piece;
         }
         this.board[square.row][square.col] = piece;
         if (piece) {
@@ -67,5 +72,40 @@ export default class Board {
 
     containsSquare(square) {
         return (square.row >= 0 && square.col >= 0 && square.row < this.board.length && square.col < this.board.length)
+    }
+
+    hasMoveAvailable() {
+        for (let piece of this.getAllPieces()
+                .filter((p) => p.player === this.currentPlayer)) {
+            if (piece.getAvailableMoves(this)
+                .length > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isCheckmate() {
+        let king = this.kings[this.currentPlayer];
+        if (king.isInCheck) {
+            if (!this.hasMoveAvailable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isStalemate() {
+        let king = this.kings[this.currentPlayer];
+        if (!king.isInCheck) {
+            if (!this.hasMoveAvailable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isEndgame() {
+        return isStalemate() || isCheckmate();
     }
 }

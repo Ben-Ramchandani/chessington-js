@@ -1,6 +1,8 @@
 import 'chai/register-should';
 import Queen from '../../../src/engine/pieces/queen';
 import Pawn from '../../../src/engine/pieces/pawn';
+import Rook from '../../../src/engine/pieces/rook';
+import King from '../../../src/engine/pieces/king';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
@@ -98,5 +100,18 @@ describe('Queen', () => {
 
         moves.should.deep.include(Square.at(4, 6));
     });
+
+    it('cannot move to put the king in check', () => {
+        const queen = new Queen(Player.WHITE);
+        const opposingRook = new Rook(Player.BLACK);
+        const king = new King(Player.WHITE)
+        board.setPiece(Square.at(4, 4), queen);
+        board.setPiece(Square.at(4, 6), opposingRook);
+        board.setPiece(Square.at(4, 2), king)
+
+        const moves = queen.getAvailableMoves(board);
+
+        moves.should.have.length(3);
+    })
 
 });

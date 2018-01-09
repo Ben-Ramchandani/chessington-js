@@ -7,7 +7,7 @@ export default class Pawn extends Piece {
         super(player);
     }
 
-    getAvailableMoves(board) {
+    getAvailableMovesNoCheck(board) {
         let directions
         let takingDirections
         let limit = 1;

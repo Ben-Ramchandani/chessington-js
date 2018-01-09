@@ -7,7 +7,7 @@ export default class Queen extends Piece {
         super(player);
     }
 
-    getAvailableMoves(board) {
+    getAvailableMovesNoCheck(board) {
         return Piece.availableMovesInDirections(this, Queen.directions)
     }
 }

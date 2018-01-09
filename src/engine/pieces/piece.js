@@ -6,6 +6,25 @@ export default class Piece {
     }
 
     getAvailableMoves(board) {
+        let king = board.kings[this.player]
+        let moves = this.getAvailableMovesNoCheck(board)
+        if (!king) {
+            return moves
+        }
+        moves = moves.filter((move) => {
+            let originalPosition = Object.assign(this.position);
+            let moveToPiece = board.board[move.row][move.col];
+            board.board[move.row][move.col] = this;
+            board.board[originalPosition.row][originalPosition.col] = undefined;
+            let returnBool = !king.isInCheck;
+            board.board[originalPosition.row][originalPosition.col] = this;
+            board.board[move.row][move.col] = moveToPiece;
+            return returnBool;
+        });
+        return moves
+    }
+
+    getAvailableMovesNoCheck(board) {
         throw new Error('This method must be implemented, and return a list of available moves');
     }
 

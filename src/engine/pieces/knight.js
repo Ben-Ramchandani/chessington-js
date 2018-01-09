@@ -6,7 +6,7 @@ export default class Knight extends Piece {
         super(player);
     }
 
-    getAvailableMoves(board) {
+    getAvailableMovesNoCheck(board) {
         let moves = []
         for (let i of[-2, -1, 1, 2]) {
             for (let j of[-2, -1, 1, 2]) {

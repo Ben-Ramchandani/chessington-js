@@ -1,6 +1,8 @@
 import 'chai/register-should';
 import Bishop from '../../../src/engine/pieces/bishop';
 import Pawn from '../../../src/engine/pieces/pawn';
+import Rook from '../../../src/engine/pieces/rook';
+import King from '../../../src/engine/pieces/king';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
 import Board from '../../../src/engine/board';
@@ -78,5 +80,18 @@ describe('Bishop', () => {
         const moves = bishop.getAvailableMoves(board);
 
         moves.should.not.deep.include(Square.at(6, 6));
+    })
+
+    it('cannot move to put the king in check', () => {
+        const bishop = new Bishop(Player.WHITE);
+        const opposingRook = new Rook(Player.BLACK);
+        const king = new King(Player.WHITE)
+        board.setPiece(Square.at(4, 4), bishop);
+        board.setPiece(Square.at(4, 6), opposingRook);
+        board.setPiece(Square.at(4, 2), king)
+
+        const moves = bishop.getAvailableMoves(board);
+
+        moves.should.have.length(0);
     })
 });

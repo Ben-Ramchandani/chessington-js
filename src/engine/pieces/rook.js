@@ -7,7 +7,7 @@ export default class Rook extends Piece {
         super(player);
     }
 
-    getAvailableMoves(board) {
+    getAvailableMovesNoCheck(board) {
         return Piece.availableMovesInDirections(this, Rook.directions)
     }
 }
