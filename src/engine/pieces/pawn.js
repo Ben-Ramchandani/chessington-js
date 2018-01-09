@@ -7,20 +7,35 @@ export default class Pawn extends Piece {
     }
 
     getAvailableMoves(board) {
+        let moves = []
         if (this.player === Player.WHITE) {
+            if (board.getPiece({ row: this.position.row + 1, col: this.position.col })) {
+                return []
+            }
             if (this.position.row == 1) {
-                return [{ row: this.position.row + 1, col: this.position.col }, { row: this.position.row + 2, col: this.position.col }];
+                moves = [{ row: this.position.row + 1, col: this.position.col }, {
+                    row: this.position.row + 2,
+                    col: this
+                        .position.col
+                }];
             } else {
-                return [{ row: this.position.row + 1, col: this.position.col }];
+                moves = [{ row: this.position.row + 1, col: this.position.col }];
             }
         } else {
+            if (board.getPiece({ row: this.position.row - 1, col: this.position.col })) {
+                return []
+            }
             if (this.position.row == board.board.length - 2) {
-                return [{ row: this.position.row - 1, col: this.position.col }, { row: this.position.row - 2, col: this.position.col }];
+                moves = [{ row: this.position.row - 1, col: this.position.col }, {
+                    row: this.position.row - 2,
+                    col: this
+                        .position.col
+                }];
             } else {
-                return [{ row: this.position.row - 1, col: this.position.col }];
+                moves = [{ row: this.position.row - 1, col: this.position.col }];
             }
         }
-
-        return new Array(0);
+        moves = Piece.filterDestination(moves, board)
+        return moves
     }
 }

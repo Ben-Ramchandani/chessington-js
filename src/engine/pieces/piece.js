@@ -15,4 +15,8 @@ export default class Piece {
     get position() {
         return this.board.findPiece(this);
     }
+
+    static filterDestination(moves, board) {
+        return moves.filter(destination => !(board.getPiece(destination)))
+    }
 }
