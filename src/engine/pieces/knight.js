@@ -1,4 +1,5 @@
 import Piece from './piece';
+import Board from '../board';
 
 export default class Knight extends Piece {
     constructor(player) {
@@ -14,6 +15,7 @@ export default class Knight extends Piece {
                 }
             }
         }
+        moves = moves.filter(position => board.containsSquare(position))
         return moves;
     }
 }

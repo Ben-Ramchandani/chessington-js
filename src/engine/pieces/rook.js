@@ -12,14 +12,14 @@ export default class Rook extends Piece {
     }
 
     static movesForPosition(position, board) {
-        let moves = []
-        let directions = [
-            { row: 0, col: 1 },
-            { row: 1, col: 0 },
-            { row: 0, col: -1 },
-            { row: -1, col: 0 }
-        ]
 
-        return Piece.availableMovesInDirections(position, directions, board)
+        return Piece.availableMovesInDirections(position, Rook.directions, board)
     }
 }
+
+Rook.directions = [
+    { row: 0, col: 1 },
+    { row: 1, col: 0 },
+    { row: 0, col: -1 },
+    { row: -1, col: 0 }
+]

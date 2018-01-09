@@ -7,35 +7,19 @@ export default class Pawn extends Piece {
     }
 
     getAvailableMoves(board) {
-        let moves = []
+        let directions = []
+        let limit = 1;
         if (this.player === Player.WHITE) {
-            if (board.getPiece({ row: this.position.row + 1, col: this.position.col })) {
-                return []
-            }
+            directions = [{ row: 1, col: 0 }]
             if (this.position.row == 1) {
-                moves = [{ row: this.position.row + 1, col: this.position.col }, {
-                    row: this.position.row + 2,
-                    col: this
-                        .position.col
-                }];
-            } else {
-                moves = [{ row: this.position.row + 1, col: this.position.col }];
+                limit = 2
             }
-        } else {
-            if (board.getPiece({ row: this.position.row - 1, col: this.position.col })) {
-                return []
-            }
+        } else { // If black
+            directions = [{ row: -1, col: 0 }]
             if (this.position.row == board.board.length - 2) {
-                moves = [{ row: this.position.row - 1, col: this.position.col }, {
-                    row: this.position.row - 2,
-                    col: this
-                        .position.col
-                }];
-            } else {
-                moves = [{ row: this.position.row - 1, col: this.position.col }];
+                limit = 2
             }
         }
-        moves = Piece.filterDestination(moves, board)
-        return moves
+        return Piece.availableMovesInDirections(this.position, directions, board, limit)
     }
 }

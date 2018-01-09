@@ -1,7 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
 
-
 export default class Bishop extends Piece {
     constructor(player) {
         super(player);
@@ -12,13 +11,14 @@ export default class Bishop extends Piece {
     }
 
     static movesForPosition(position, board) {
-        let directions = [
-            { row: 1, col: 1 },
-            { row: 1, col: -1 },
-            { row: -1, col: -1 },
-            { row: -1, col: 1 }
-        ]
-
-        return Piece.availableMovesInDirections(position, directions, board)
+        let moves = Piece.availableMovesInDirections(position, Bishop.directions, board)
+        return moves
     }
 }
+
+Bishop.directions = [
+    { row: 1, col: 1 },
+    { row: 1, col: -1 },
+    { row: -1, col: -1 },
+    { row: -1, col: 1 }
+]

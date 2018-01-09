@@ -1,4 +1,6 @@
 import Piece from './piece';
+import Bishop from './bishop';
+import Rook from './rook'
 
 export default class King extends Piece {
     constructor(player) {
@@ -6,14 +8,7 @@ export default class King extends Piece {
     }
 
     getAvailableMoves(board) {
-        let moves = []
-        for (let i of[-1, 0, 1]) {
-            for (let j of[-1, 0, 1]) {
-                if (i !== 0 || j !== 0) {
-                    moves.push({ row: this.position.row + i, col: this.position.col + j });
-                }
-            }
-        }
-        return moves;
+        const directions = Rook.directions.concat(Bishop.directions)
+        return Piece.availableMovesInDirections(this.position, directions, board, 1);
     }
 }
