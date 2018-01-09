@@ -24,7 +24,9 @@ export default class Board {
     }
 
     getPiece(square) {
-        return this.board[square.row][square.col];
+        if (this.containsSquare(square)) {
+            return this.board[square.row][square.col];
+        }
     }
 
     findPiece(pieceToFind) {
@@ -45,5 +47,9 @@ export default class Board {
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
+    }
+
+    containsSquare(square) {
+        return (square.row >= 0 && square.col >= 0 && square.row < this.board.length && square.col < this.board.length)
     }
 }

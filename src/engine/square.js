@@ -15,4 +15,11 @@ export default class Square {
     toString() {
         return `Row ${this.row}, Col ${this.col}`;
     }
+
+    static add(a, b) {
+        return new Square(
+            a.row + b.row,
+            a.col + b.col
+        )
+    }
 }
