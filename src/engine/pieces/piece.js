@@ -1,3 +1,5 @@
+import Square from '../square';
+
 export default class Piece {
     constructor(player) {
         this.player = player;
@@ -18,5 +20,23 @@ export default class Piece {
 
     static filterDestination(moves, board) {
         return moves.filter(destination => !(board.getPiece(destination)))
+    }
+
+    static availableMovesInDirections(position, directions, board) {
+        let moves = []
+        while (directions.length > 0) {
+            let currentPosition = position
+            const direction = directions[0]
+            for (let i = 1; i < board.board.length; i++) {
+                currentPosition = Square.add(currentPosition, direction)
+                if (board.getPiece(currentPosition) || !board.containsSquare(currentPosition)) {
+                    directions.shift()
+                    break
+                } else {
+                    moves.push(currentPosition)
+                }
+            }
+        }
+        return moves
     }
 }

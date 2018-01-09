@@ -20,19 +20,6 @@ export default class Rook extends Piece {
             { row: -1, col: 0 }
         ]
 
-        while (directions.length > 0) {
-            let currentPosition = position
-            const direction = directions[0]
-            for (let i = 1; i < board.board.length; i++) {
-                currentPosition = Square.add(currentPosition, direction)
-                if (board.getPiece(currentPosition) || !board.containsSquare(currentPosition)) {
-                    directions.shift()
-                    break
-                } else {
-                    moves.push(currentPosition)
-                }
-            }
-        }
-        return moves
+        return Piece.availableMovesInDirections(position, directions, board)
     }
 }
