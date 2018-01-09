@@ -6,15 +6,18 @@ export default class Bishop extends Piece {
     }
 
     getAvailableMoves(board) {
+        return Bishop.movesForPosition(this.position, board)
+    }
+
+    static movesForPosition(position, board) {
         let moves = []
         for (let i = 1; i < board.board.length; i++) {
-            moves.push({ row: this.position.row + i, col: this.position.col + i }, {
-                row: this.position.row + i,
-                col: this.position.col - i
-            }, { row: this.position.row - i, col: this.position.col + i }, {
-                row: this
-                    .position.row - i,
-                col: this.position.col - i
+            moves.push({ row: position.row + i, col: position.col + i }, {
+                row: position.row + i,
+                col: position.col - i
+            }, { row: position.row - i, col: position.col + i }, {
+                row: position.row - i,
+                col: position.col - i
             })
         }
         moves = moves.filter(item => item.row >= 0 &&
