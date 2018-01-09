@@ -8,12 +8,7 @@ export default class Rook extends Piece {
     }
 
     getAvailableMoves(board) {
-        return Rook.movesForPosition(this.position, board)
-    }
-
-    static movesForPosition(position, board) {
-
-        return Piece.availableMovesInDirections(position, Rook.directions, board)
+        return Piece.availableMovesInDirections(this, Rook.directions)
     }
 }
 

@@ -9,6 +9,6 @@ export default class King extends Piece {
 
     getAvailableMoves(board) {
         const directions = Rook.directions.concat(Bishop.directions)
-        return Piece.availableMovesInDirections(this.position, directions, board, 1);
+        return Piece.availableMovesInDirections(this, directions, 1);
     }
 }

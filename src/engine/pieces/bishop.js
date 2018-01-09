@@ -7,12 +7,7 @@ export default class Bishop extends Piece {
     }
 
     getAvailableMoves(board) {
-        return Bishop.movesForPosition(this.position, board)
-    }
-
-    static movesForPosition(position, board) {
-        let moves = Piece.availableMovesInDirections(position, Bishop.directions, board)
-        return moves
+        return Piece.availableMovesInDirections(this, Bishop.directions)
     }
 }
 

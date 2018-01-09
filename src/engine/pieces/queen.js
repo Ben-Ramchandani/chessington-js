@@ -8,8 +8,8 @@ export default class Queen extends Piece {
     }
 
     getAvailableMoves(board) {
-        return Bishop.movesForPosition(this.position, board)
-            .concat(Rook.movesForPosition(this.position, board))
-
+        return Piece.availableMovesInDirections(this, Queen.directions)
     }
 }
+
+Queen.directions = Bishop.directions.concat(Rook.directions)

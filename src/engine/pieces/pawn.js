@@ -20,6 +20,6 @@ export default class Pawn extends Piece {
                 limit = 2
             }
         }
-        return Piece.availableMovesInDirections(this.position, directions, board, limit)
+        return Piece.availableMovesInDirections(this, directions, limit, false)
     }
 }
