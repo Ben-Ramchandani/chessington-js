@@ -51,8 +51,8 @@ describe('Board', () => {
         board.setPiece(Square.at(0, 4), king);
         board.currentPlayer = Player.BLACK;
 
-        board.isCheckmate()
-            .should.equal(true);
+        board.isEndgame()
+            .should.equal("CHECKMATE");
     });
 
     it('is not checkmate', () => {
@@ -64,8 +64,8 @@ describe('Board', () => {
         board.setPiece(Square.at(0, 4), king);
         board.currentPlayer = Player.BLACK;
 
-        board.isCheckmate()
-            .should.not.equal(true);
+        board.isEndgame()
+            .should.equal(false);
     });
     //TODO: check If King can take something it's not checkmate
     it('is stalemate', () => {
@@ -77,8 +77,8 @@ describe('Board', () => {
         board.setPiece(Square.at(0, 0), king);
         board.currentPlayer = Player.BLACK;
 
-        board.isStalemate()
-            .should.equal(true);
+        board.isEndgame()
+            .should.equal("STALEMATE");
     });
 
     it('is not stalemate', () => {
@@ -90,8 +90,8 @@ describe('Board', () => {
         board.setPiece(Square.at(0, 4), king);
         board.currentPlayer = Player.BLACK;
 
-        board.isStalemate()
-            .should.not.equal(true);
+        board.isEndgame()
+            .should.not.equal("STALEMATE");
     });
 
     it('is not stalemate because it is checkmate', () => {
@@ -103,7 +103,7 @@ describe('Board', () => {
         board.setPiece(Square.at(0, 4), king);
         board.currentPlayer = Player.BLACK;
 
-        board.isStalemate()
-            .should.not.equal(true);
+        board.isEndgame()
+            .should.equal("CHECKMATE");
     });
 });

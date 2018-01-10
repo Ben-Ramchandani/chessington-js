@@ -80,7 +80,6 @@ describe('King', () => {
         assert.throws(() => board.setPiece(Square.at(0, 1), king));
     })
 
-    //TODO: write a test for check
     it('is in check', () => {
         const king = new King(Player.WHITE);
         const opposingRook = new Rook(Player.BLACK)
@@ -96,5 +95,17 @@ describe('King', () => {
         board.setPiece(Square.at(1, 5), opposingRook)
 
         king.isInCheck.should.not.equal(true)
+    })
+
+    it('can take to evade check', () => {
+        const king = new King(Player.WHITE);
+        const opposingRook = new Rook(Player.BLACK)
+        board.setPiece(Square.at(0, 5), king)
+        board.setPiece(Square.at(1, 5), opposingRook)
+
+        let moves = king.getAvailableMoves(board);
+
+        king.isInCheck.should.equal(true);
+        moves.should.deep.include(Square.at(1, 5));
     })
 });

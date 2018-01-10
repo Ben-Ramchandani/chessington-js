@@ -20,15 +20,20 @@ export default class Board {
     }
 
     setPiece(square, piece) {
+        if (!piece) {
+            throw "No piece"
+        }
+        piece.board = this;
         if (this.board[square.row][square.col] instanceof King) {
             throw Error("Cannot take the king")
         }
+        let originalPosition = piece.position;
         if (piece instanceof King) {
             this.kings[piece.player] = piece;
         }
         this.board[square.row][square.col] = piece;
-        if (piece) {
-            piece.board = this;
+        if (originalPosition) {
+            this.board[originalPosition.row][originalPosition.col] = undefined;
         }
     }
 
@@ -58,15 +63,32 @@ export default class Board {
                 }
             }
         }
-        throw new Error('The supplied piece is not on the board');
+        return undefined;
     }
 
     movePiece(fromSquare, toSquare) {
         const movingPiece = this.getPiece(fromSquare);
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
-            this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            let endgame = this.isEndgame();
+            let nameMap = {
+                [Player.WHITE]: "White",
+                [Player.BLACK]: "Black"
+            };
+            if (endgame) {
+                console.log(endgame);
+
+                console.log(nameMap[this.currentPlayer] + "Loses");
+                if (endgame === "CHECKMATE") {
+                    alert("Game over, " + nameMap[this.currentPlayer] + " loses.");
+                } else {
+                    alert("Game over, stalemate.");
+                }
+                this.currentPlayer = null;
+            } else if (this.kings[this.currentPlayer] && this.kings[this.currentPlayer].isInCheck) {
+                alert(nameMap[this.currentPlayer] + " is in check.");
+            }
         }
     }
 
@@ -85,27 +107,19 @@ export default class Board {
         return false;
     }
 
-    isCheckmate() {
-        let king = this.kings[this.currentPlayer];
-        if (king.isInCheck) {
-            if (!this.hasMoveAvailable()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    isStalemate() {
-        let king = this.kings[this.currentPlayer];
-        if (!king.isInCheck) {
-            if (!this.hasMoveAvailable()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     isEndgame() {
-        return isStalemate() || isCheckmate();
+        let king = this.kings[this.currentPlayer];
+        if (!king) {
+            return false; // So that tests without kings work.
+        }
+        if (!this.hasMoveAvailable()) {
+            if (king.isInCheck) {
+                return "CHECKMATE";
+            } else {
+                return "STALEMATE";
+            }
+        } else {
+            return false;
+        }
     }
 }
